@@ -15,8 +15,16 @@ router.get("/", function (req, res, next) {
 router.get("/:matricula", function (req, res, next) {
     const { matricula } = req.params;
     const aluno = alunos.content[matricula];
+ res.render("card", { title: "Detalhe do Aluno", aluno });
+});
 
-    res.render("card", { title: "Detalhe do Aluno", aluno });
+
+
+router.get("/new", function (req, res, next) {
+    const { matricula } = req.params;
+    const aluno = alunos.content[matricula];
+
+    res.render("card", { title: "Novo Aluno", buttontext:'Adicinar' });
 });
 
 module.exports = router;
