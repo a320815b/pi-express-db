@@ -7,7 +7,6 @@ router.get('/', function(req, res, next) {
     title: 'Lucélia Ribeiro de Andrade',
     date: new Date().toLocaleDateString(),
     time: new Date().toLocaleTimeString()
-  
   });
 });
 
