@@ -33,7 +33,7 @@ router.post('/create',function(req,res,next){
 
     alunos.content[matricula]= {
         ...novoAluno,
-        matricula: Number(matricula),
+        matricula: Number(matricula),      
         
     }
     res.redirect('/alunos');
@@ -47,4 +47,15 @@ router.get("/edit/:matricula", function (req, res, next) {
     res.render("form", { title: "Editar Aluno", buttonText: "Salvar Alterações",aluno });
     
 });
+router.put('/', function (req, res, next) {
+    
+    res.send(rq.body);
+});
+router.delete('/', function (req, res, next) {
+    
+    res.send(rq.body);
+});
+
+
+
 module.exports = router;
