@@ -3,12 +3,15 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var bodyParser = require('body-parser')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var alunosRouter = require('./routes/alunos');
+var httpMethodOverider = require('./middlewares/htt-method-overrider');
 
 var app = express();
+app.use(bodyParser.urlencoded());
 
 // view engine setup
 var { create } = require('express-handlebars');

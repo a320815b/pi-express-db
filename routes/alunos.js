@@ -53,12 +53,12 @@ router.post('/', function (req, res, next) {
 });
 
 router.put('/', function (req, res, next) {
-    
-    res.send(rq.body);
+    const {body,method} = req
+    res.send({body,  method, msg:'adicionar'});
 });
 router.delete('/', function (req, res, next) {
-    
-    res.send(rq.body);
+    const {body,method} = req
+    res.send({body, method, msg: 'remover aluno'});
 });
 
 
