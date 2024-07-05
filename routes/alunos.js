@@ -47,6 +47,11 @@ router.get("/edit/:matricula", function (req, res, next) {
     res.render("form", { title: "Editar Aluno", buttonText: "Salvar Alterações",aluno });
     
 });
+router.post('/', function (req, res, next) {
+    const {body,method} = req
+    res.send({body,method})
+});
+
 router.put('/', function (req, res, next) {
     
     res.send(rq.body);
@@ -55,6 +60,7 @@ router.delete('/', function (req, res, next) {
     
     res.send(rq.body);
 });
+
 
 
 
