@@ -9,23 +9,23 @@ router.get('/', function(req, res, next) {
     };
     res.render('list',data)
 });
-router.get('/new', function(_req, res, next) {
+// router.get('/new', function(_req, res, next) {
     const{heads: labels} = alunos;
     const data = {title: 'Novo aluno', parametro:"create", metodo: "post", buttonText: 'Adicionar aluno'}
     res.render('form', data);
-});
+// });
 router.get('/:matricula', function(req, res, next) {
     const {matricula} =  req.params;
     const aluno = alunos.content[matricula];
     res.render('card',{title:'Detalhe dos alunos', aluno})
 });
-router.get('/edit/:matricula', function(req, res, next) {
-    const {matricula} =  req.params;
-    const parametro = matricula
-    const aluno = alunos.content[matricula];
-    const data = {aluno, metodo: "put", parametro, title: "editar aluno", buttonText: "salvar alteraçoes"}
-    res.render('form', data);
-});
+// router.get('/edit/:matricula', function(req, res, next) {
+//     const {matricula} =  req.params;
+//     const parametro = matricula
+//     const aluno = alunos.content[matricula];
+//     const data = {aluno, metodo: "put", parametro, title: "editar aluno", buttonText: "salvar alteraçoes"}
+//     res.render('form', data);
+// });
 router.post('/create', function(req, res, next) {
     const novoAluno = req.body;
     const matricula = novoAluno.matricula;
