@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var alunos = require("../tests/mocks/alunos.json");
-const { send, header } = require("express/lib/response");
+const { send, header, redirect } = require("express/lib/response");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -26,7 +26,6 @@ router.get("/:matricula", function (req, res, next) {
 
 router.get("/new", function (req, res, next) {
     const {heads:label}= alunos;
-    const paramento = 'create';
     const data = {metodo:'POST',paramento:'create',title:'Novo Aluno',buttonText:'Adicionar Aluno'}
 
     res.render('fom',data);
@@ -46,10 +45,11 @@ router.post('/create',function(req,res,next){
 
 router.get("/edit/:matricula", function (req, res, next) {
     const { matricula } = req.params;
+    const paramento = matricula
     const aluno = alunos.content[matricula];
-    const data = {aluno,metodo:matricula,title: 'Editar Aluno '}
+    const data = {aluno, metodo:'PUT',title: 'Editar Aluno ',buttonText:'salvar alterações'}
     
-    res.render("form", { title: "Editar Aluno", buttonText: "Salvar Alterações",aluno });
+    res.render("form", data);
     
 });
 router.post('/', function (req, res, next) {
@@ -58,8 +58,16 @@ router.post('/', function (req, res, next) {
 });
 
 router.put('/', function (req, res, next) {
-    const {body,method} = req
-    res.send({body,  method, msg:'adicionar'});
+    const{matricula} = req.params
+    const nomeAluno = req.body;
+
+    alunos.content[matricula] = {
+        ...novoAluno, 
+    matricula : Number(matricula)
+
+    }
+    // res.send({body,  method, msg:'adicionar'});
+    res.redirect('/alunos');
 });
 router.delete('/', function (req, res, next) {
     const {body,method} = req
