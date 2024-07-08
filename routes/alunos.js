@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var alunos = require("../tests/mocks/alunos.json");
-const { send } = require("express/lib/response");
+const { send, header } = require("express/lib/response");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -25,7 +25,11 @@ router.get("/:matricula", function (req, res, next) {
 
 
 router.get("/new", function (req, res, next) {
-    res.render("form", { title: "Novo Aluno", buttonText: "Adicionar Aluno" });
+    const {heads:label}= alunos;
+    const paramento = 'create';
+    const data = {metodo:'POST',paramento:'create',title:'Novo Aluno',buttonText:'Adicionar Aluno'}
+
+    res.render('fom',data);
 });
 router.post('/create',function(req,res,next){
     const novoAluno = req.body;
@@ -43,6 +47,7 @@ router.post('/create',function(req,res,next){
 router.get("/edit/:matricula", function (req, res, next) {
     const { matricula } = req.params;
     const aluno = alunos.content[matricula];
+    const data = {aluno,metodo:matricula,title: 'Editar Aluno '}
     
     res.render("form", { title: "Editar Aluno", buttonText: "Salvar Alterações",aluno });
     
