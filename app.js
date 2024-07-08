@@ -8,11 +8,11 @@ var bodyParser = require('body-parser')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var alunosRouter = require('./routes/alunos');
-var httpMethodOverider = require('./middlewares/htt-method-overrider');
+var httpMethodOverider = require('./middlewares/http-method-overrider');
 
 var app = express();
 app.use(bodyParser.urlencoded());
-
+app.use(httpMethodOverider)
 // view engine setup
 var { create } = require('express-handlebars');
 var hbs =  create({ extname: '.hbs' })
