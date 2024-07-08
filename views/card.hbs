@@ -13,9 +13,17 @@
         <p class="card-text">(Campo opcional) Espaço reservado para colocar uma breve descrição do aluno.
         </p>
         <a href="{{aluno.data_nascimento}}" class="card-link">Data de Nascimento</a>
-        <a href="{{aluno.matricula}}" class="card-link">Matricula</a>
-        <a href="#" class="card-link">Remover  </a><i class="bi bi-trash"></i>
-        <a href="#" class="card-link">Editar  </a><i class="bi bi-pencil-square"></i>
+        <a class="card-link">Matricula</a>
+
+        <Editar href="/alunos/edit/{{aluno.matricula}}">Editar
+
+                <form action="/alunos/{{aluno.matricula}}" method="POST">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" id="submit" class="btn btn-danger">
+                    Remover
+            </a><i class="bi bi-pencil-square"></i>
+            </button>
+            </form>
     </div>
-        
+
 </div>
