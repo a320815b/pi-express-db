@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-let alunos = require('../../alunos.json')
+let alunos = require('../tests/mocks/alunos.json')
 /* GET users listing. */
 router.get('/', function(req, res, next) {
     const data = {
