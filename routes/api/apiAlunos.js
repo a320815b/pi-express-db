@@ -18,7 +18,7 @@ router.get('/', async function(req, res, next) {
     }
 });
 
-router.get('/:matricula', function(req, res, next) {
+router.get('/:matricula',async function(req, res, next) {
     const {matricula} =  req.params;
     const query = `
     SELECT * 
@@ -27,12 +27,19 @@ router.get('/:matricula', function(req, res, next) {
     ;
     
 });
-router.post('/create', function(req, res, next){ 
+router.post('/create',async function(req, res, next){ 
     const query = `
     INSERT 
     INTO alunos (matricula, nome, email, data_nascimento) 
     VALUES ($1,$2,$3,$4)`
     ;
+    const matricula  = req.body;
+    const nome = req.body;
+    const email = req.body.email;
+    const data_nascimento = req.body
+
+    const values= [matricula,nome,email,data_nascimento]
+
     
     const novoAluno = req.body;
     const matricula = novoAluno.matricula;
