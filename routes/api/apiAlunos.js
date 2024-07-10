@@ -3,7 +3,13 @@ var router = express.Router();
 let alunos = require('../../tests/mocks/alunos.json')
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-    res.status(200).json(alunos);
+    try {
+        res.status(200).json(alunos);
+        
+    } catch (error) {
+        res.status(400).json({msg: error.message});
+        
+    }
 });
 
 router.get('/:matricula', function(req, res, next) {
@@ -18,14 +24,20 @@ router.get('/:matricula', function(req, res, next) {
 //     const data = {aluno, metodo: "put", parametro, title: "editar aluno", buttonText: "salvar alteraçoes"}
 //     res.render('form', data);
 // });
-router.post('/create', function(req, res, next) {
+router.post('/create', function(req, res, next){ 
+    {
     const novoAluno = req.body;
     const matricula = novoAluno.matricula;
     alunos.content[matricula] = {
-        ...novoAluno,
-        matricula: Number(matricula),
+        ...novoAluno};
+
+        const response = {
+        msg : "aluno criado com sucesso",
+        aluno : alunos.content[matricula]
+        }
+        res.status(201).json (alunos.content[matricula])
     };
-    res.redirect(303, '/alunos');
+    
 });
 router.put('/:matricula', function (req, res, next) {
     //const {body, method} = req;
@@ -34,6 +46,12 @@ router.put('/:matricula', function (req, res, next) {
     alunos.content[matricula] = {
         ...novoAluno,
         matricula: Number(matricula)
+        
+        const response = {
+            msg : "aluno criado com Atualizido com sucesso!",
+            aluno : alunos.content[delete]
+            }
+            res.status(201).json (alunos.content[matricula])
     };
     //res.send({body, method, msg:'altera usuario'});
     res.redirect('/alunos');
@@ -41,6 +59,11 @@ router.put('/:matricula', function (req, res, next) {
 router.delete('/:matricula', function (req, res, next) {
     const matricula = req.params.matricula;
     delete alunos.content[matricula];
+    const response = {
+        msg : "aluno criado com Removido!",
+        aluno : alunos.content[delete]
+        }
+        res.status(201).json (alunos.content[delete])
     res.redirect(303, '/alunos');
 });
 module.exports = router;
