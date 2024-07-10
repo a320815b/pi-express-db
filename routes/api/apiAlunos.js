@@ -49,7 +49,8 @@ router.post('/create', function(req, res, next){
     
 });
 router.put('/:matricula', function (req, res, next) {
-    //const {body, method} = req;
+    const query = `UPDATE alunos 
+    SET nome = $2,data_nascimento=$4,WHERE matricula=$1`
     const { matricula } = req.params;
     const novoAluno = req.body;
     alunos.content[matricula] = {
@@ -60,6 +61,10 @@ router.put('/:matricula', function (req, res, next) {
     res.redirect('/alunos');
 });
 router.delete('/:matricula', function (req, res, next) {
+    const query = `DELETE 
+from alunos 
+WHERE matricula=$1;
+`
     const matricula = req.params.matricula;
     delete alunos.content[matricula];
     const response = {
