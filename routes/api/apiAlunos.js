@@ -42,7 +42,7 @@ router.post('/create',async function(req, res, next){
 
     
     const novoAluno = req.body;
-    const matricula = novoAluno.matricula;
+    // const matricula = novoAluno.matricula;
     alunos.content[matricula] = {
         ...novoAluno};
 
