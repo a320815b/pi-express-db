@@ -1,84 +1,78 @@
-const db = require('../../config/config_database')
-
 var express = require('express');
 var router = express.Router();
-
-//http://localhost:3000/api/v1/alunos
-
-router.get('/', async function(req, res, next) {
-    const query = 'SELECT * FROM alunos';
+const db = require('../../config/config_database');
+router.get('/', async function(req,res,next){
+    const query = 'SELECT * FROM alunos'
     try {
-
-        const data = await db.any(query);
+        const data = await db.any(query)
         res.status(200).json(data);
-        
     } catch (error) {
         res.status(400).json({msg: error.message});
-        
+    }
+})
+router.get('/:matricula', async function(req, res, next) {
+    const {matricula} = req.params.matricula;
+    const query = `SELECT * FROM alunos WHERE matricula= $1`
+    try {
+        const data = await db.one(query,matricula)
+        res.status(200).json(data);
+    } catch (error) {
+        res.status(400).json({msg: error.message});
     }
 });
-
-router.get('/:matricula',async function(req, res, next) {
-    const {matricula} =  req.params;
+router.post('/', async function(req,res,next){
+    const nome = req.body.nome
+    const matricula = req.body.matricula
+    const email = req.body.email
+    const data_nascimento = req.body.data_nascimento
     const query = `
-    SELECT * 
-    FROM alunos
-    WHERE matricula = $1`
-    ;
-    
-});
-router.post('/create',async function(req, res, next){ 
-    const query = `
-    INSERT 
-    INTO alunos (matricula, nome, email, data_nascimento) 
-    VALUES ($1,$2,$3,$4)`
-    ;
-    const matricula  = req.body;
-    const nome = req.body;
-    const email = req.body.email;
-    const data_nascimento = req.body
+    INSERT INTO alunos (matricula, nome, email, data_nascimento) VALUES
+    ($1, $2, $3, $4)
+    `
+    const values = [matricula, nome, email, data_nascimento]
+    try {
+        const data = await db.any(query,values)
+        res.status(201).json(data)
+    } catch (error) {
+        res.status(400).json(error)
+    }
+})
 
-    const values= [matricula,nome,email,data_nascimento]
-
-    
-    const novoAluno = req.body;
-    // const matricula = novoAluno.matricula;
-    alunos.content[matricula] = {
-        ...novoAluno};
-
-        const response = {
-        msg : "aluno criado com sucesso",
-
-        aluno : alunos.content[matricula]
-        }
-        res.status(201).json (alunos.content[matricula])
-    
-    
-});
 router.put('/:matricula', function (req, res, next) {
-    const query = `UPDATE alunos 
-    SET nome = $2,data_nascimento=$4,WHERE matricula=$1`
-    const { matricula } = req.params;
+    const {matricula} = req.params.matricula;
     const novoAluno = req.body;
-    alunos.content[matricula] = {
-        ...novoAluno,
-        matricula: Number(matricula)
-    }
-    //res.send({body, method, msg:'altera usuario'});
-    res.redirect('/alunos');
-});
-router.delete('/:matricula', function (req, res, next) {
-    const query = `DELETE 
-from alunos 
-WHERE matricula=$1;
-`
-    const matricula = req.params.matricula;
-    delete alunos.content[matricula];
+    alunos.content[matricula] = {...novoAluno,matricula:Number(matricula)};
     const response = {
-        msg : "aluno criado com Removido!",
-        aluno : alunos.content[matricula]
-        }
-        res.status(201).json (alunos.content[matricula])
-    res.redirect(303, '/alunos');
+        msg: "Aluno editado com sucesso!",
+        aluno: alunos.content[matricula]
+    }
+    const query = `
+    UPDATE alunos
+    SET
+    nome = $2, email = $3, data_nascimento = $4
+    WHERE matricula= $1
+    `
+    try {
+        res.status(200).json(response)
+    } catch (error) {
+        res.status(400).json({msg: error.msg})
+    }
+});
+
+router.delete('/:matricula', async function (req, res, next) {
+    const {matricula} = req.params.matricula;
+    const query = "DELETE FROM alunos WHERE matricula = $1"
+    delete alunos.content[matricula]
+    const response = {
+        msg: "Aluno excluido!",
+        matricula
+    }
+    res.status(200).json(response)
 });
 module.exports = router;
+
+
+
+
+
+
